@@ -13,9 +13,9 @@ dependencies = [
 
 [tool.ruff]
 exclude = ["venv", ".venv"]
+line-length = 88
 
 [tool.ruff.lint]
-line-length = 88
 select = ["E", "F"]
 
 [build-system]
