@@ -62,15 +62,15 @@ def add_check(url_id):
                 flash('Сайт не найден', 'danger')
                 return redirect(url_for('show_urls'))
 
-            site_name = result[0]
             created_at = datetime.now()
 
             # Создаём новую проверку
             cur.execute(
-                "INSERT INTO url_checks (url_id, created_at) VALUES (%s, %s) RETURNING id",
+                "INSERT INTO url_checks (url_id, created_at) "
+                "VALUES (%s, %s) RETURNING id",
                 (url_id, created_at)
             )
-            new_check_id = cur.fetchone()[0]
+            cur.fetchone()[0]
             conn.commit()
 
             flash('Проверка успешно запущена', 'success')
