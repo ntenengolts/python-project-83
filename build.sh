@@ -5,7 +5,6 @@ export PATH="$HOME/.local/bin:$PATH"
 uv --version
 
 uv venv
-source .venv/bin/activate
 
 uv sync
 
