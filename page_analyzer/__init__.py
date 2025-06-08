@@ -10,5 +10,5 @@ app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'secret')
 DATABASE_URL = os.getenv('DATABASE_URL')
 
-from .app import index, add_url, show_url, show_urls, test # noqa: F401
+from .app import * # noqa: F401
 
