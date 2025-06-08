@@ -17,3 +17,8 @@ exclude = ["venv", ".venv"]
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.poetry.dependencies]
+python-dotenv = "^1.0.1"
+psycopg2-binary = "^2.9.9"
+

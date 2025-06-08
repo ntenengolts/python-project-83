@@ -4,3 +4,5 @@ export PATH="$HOME/.local/bin:$PATH"
 
 uv venv
 uv sync
+
+psql -a -d "$DATABASE_URL" -f database.sql

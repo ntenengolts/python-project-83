@@ -1,0 +1,5 @@
+CREATE TABLE urls (
+    id SERIAL PRIMARY KEY,
+    name VARCHAR(255) UNIQUE NOT NULL,
+    create_at TIMESTAMP NOT NULL
+);
