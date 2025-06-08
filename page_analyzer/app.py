@@ -51,6 +51,32 @@ def show_url(url_id):
     return render_template('url.html', url=url)
 
 
+@app.route('/urls/<int:url_id>/checks', methods=['POST'])
+def add_check(url_id):
+    with get_connection() as conn:
+        with conn.cursor() as cur:
+            # Получаем информацию о сайте
+            cur.execute("SELECT name FROM urls WHERE id = %s", (url_id,))
+            result = cur.fetchone()
+            if not result:
+                flash('Сайт не найден', 'danger')
+                return redirect(url_for('show_urls'))
+
+            site_name = result[0]
+            created_at = datetime.now()
+
+            # Создаём новую проверку
+            cur.execute(
+                "INSERT INTO url_checks (url_id, created_at) VALUES (%s, %s) RETURNING id",
+                (url_id, created_at)
+            )
+            new_check_id = cur.fetchone()[0]
+            conn.commit()
+
+            flash('Проверка успешно запущена', 'success')
+            return redirect(url_for('show_url', url_id=url_id))
+
+
 @app.route('/urls')
 def show_urls():
     with get_connection() as conn:
