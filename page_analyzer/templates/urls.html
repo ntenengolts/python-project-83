@@ -18,7 +18,7 @@
             <td>{{ url[0] }}</td>
             <td><a href="{{ url_for('show_url', url_id=url[1]) }}">{{ url.name }}</a></td>
             <td>{{ url[2] }}</td>
-            <td>{{ url[3] if url[3] '-' }}</td>
+            <td>{{ url[3] if url[3] else '-' }}</td>
         </tr>
         {% endfor %}
     </tbody>
