@@ -28,7 +28,10 @@ def add_url():
             if result:
                 flash('Страница уже существует', 'info')
                 return redirect(url_for('show_url', url_id=result[0]))
-            cur.execute("INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id", (normalized, created_at))
+            cur.execute(
+                "INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id",
+                (normalized, created_at)
+            )
             new_id = cur.fetchone()[0]
             conn.commit()
 
@@ -40,7 +43,10 @@ def add_url():
 def show_url(url_id):
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT id, name, created_at FROM urls WHERE id = %s", (url_id,))
+            cur.execute(
+                "SELECT id, name, created_at FROM urls WHERE id = %s",
+                (url_id,)
+            )
             url = cur.fetchone()
     return render_template('url.html', url=url)
 
