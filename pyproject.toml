@@ -9,7 +9,7 @@ dependencies = [
     "python-dotenv"
 ]
 
-[tool.ruff]
+[tool.ruff.lint]
 line-length = 88
 select = ["E", "F"]
 exclude = ["venv", ".venv"]
