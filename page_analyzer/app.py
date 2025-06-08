@@ -58,3 +58,9 @@ def show_urls():
             cur.execute("SELECT id, name, created_at FROM urls ORDER BY id DESC")
             urls = cur.fetchall()
     return render_template('urls.html', urls=urls)
+
+
+@app.route('/test')
+def test():
+    return "Hello from Flask!", 200
+
