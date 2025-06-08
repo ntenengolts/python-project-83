@@ -2,7 +2,7 @@ from flask import request, redirect, flash, render_template, url_for
 from urllib.parse import urlparse
 from validators import url as is_valid_url
 from datetime import datetime
-from .db import get_connection
+from db import get_connection
 from . import app  # импорт Flask-приложения
 
 

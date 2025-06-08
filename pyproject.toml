@@ -17,6 +17,7 @@ line-length = 88
 
 [tool.ruff.lint]
 select = ["E", "F"]
+ignore = ["E402", "E403", "E405"]
 
 [build-system]
 requires = ["setuptools", "wheel"]
