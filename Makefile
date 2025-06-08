@@ -9,7 +9,7 @@ start:
 	uv run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
 
 render-start:
-	~/.local/bin/uv run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
+	./venv/bin/uv run gunicorn -w 5 -b 0.0.0.0:$(PORT) page_analyzer:app
 
 lint:
 	uv run ruff check .
