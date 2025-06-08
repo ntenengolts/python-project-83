@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Сайт: {{ url.name }}</h1>
-<p>Дата создания: {{ url.created_at }}</p>
+<h1>Сайт: {{ url[1] }}</h1>
+<p>Дата создания: {{ url[2] }}</p>
 
 <h2>Проверки</h2>
-<form method="post" action="{{ url_for('add_check', url_id=url.id) }}">
+<form method="post" action="{{ url_for('add_check', url_id=url[0]) }}">
     <button type="submit" data-test="checks">Запустить проверку</button>
 </form>
 
@@ -23,12 +23,12 @@
     <tbody>
         {% for check in checks %}
         <tr>
-            <td>{{ check.id }}</td>
-            <td>{{ check.status_code }}</td>
-            <td>{{ check.h1 }}</td>
-            <td>{{ check.title }}</td>
-            <td>{{ check.description }}</td>
-            <td>{{ check.created_at }}</td>
+            <td>{{ check[0] }}</td>
+            <td>{{ check[1] }}</td>
+            <td>{{ check[2] }}</td>
+            <td>{{ check[3] }}</td>
+            <td>{{ check[4] }}</td>
+            <td>{{ check[5] }}</td>
         </tr>
         {% endfor %}
     </tbody>
