@@ -117,6 +117,25 @@ def show_urls():
         with conn.cursor() as cur:
             cur.execute("SELECT id, name, created_at FROM urls ORDER BY id DESC")
             urls = cur.fetchall()
+
+            updated_urls = []
+            for url_row in urls:
+                cur.execute(
+                    "SELECT created_at, status_code "
+                    "FROM url_checks WHERE url_id = %s "
+                    "ORDER BY created_at DESC LIMIT 1",
+                    (url_row[0],)
+                )
+                last_check = cur.fetchone()
+                if last_check:
+                    last_check_date, status_code = last_check
+                else:
+                    last_check_date, status_code = None, None
+
+                # Добавляем дату и статус к данным сайта
+                updated_url = url_row + (last_check_date, status_code)
+                updated_urls.append(updated_url)
+
     return render_template('urls.html', urls=urls)
 
 
