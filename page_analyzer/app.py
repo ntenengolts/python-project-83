@@ -136,7 +136,7 @@ def show_urls():
                 updated_url = url_row + (last_check_date, status_code)
                 updated_urls.append(updated_url)
 
-    return render_template('urls.html', urls=urls)
+    return render_template('urls.html', urls=updated_urls)
 
 
 @app.route('/test')
