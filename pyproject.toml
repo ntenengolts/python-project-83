@@ -8,7 +8,9 @@ dependencies = [
     "gunicorn",
     "python-dotenv",
     "psycopg2-binary>=2.9.9,<3.0.0",
-    "validators>=0.20.0,<0.21.0"
+    "validators>=0.20.0,<0.21.0",
+    "requests>=2.31.0",
+    "beautifulsoup4>=4.12.2"
 ]
 
 [tool.ruff]

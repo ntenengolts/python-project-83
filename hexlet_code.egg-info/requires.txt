@@ -3,3 +3,5 @@ gunicorn
 python-dotenv
 psycopg2-binary<3.0.0,>=2.9.9
 validators<0.21.0,>=0.20.0
+requests>=2.31.0
+beautifulsoup4>=4.12.2

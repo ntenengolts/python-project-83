@@ -8,3 +8,5 @@ Requires-Dist: gunicorn
 Requires-Dist: python-dotenv
 Requires-Dist: psycopg2-binary<3.0.0,>=2.9.9
 Requires-Dist: validators<0.21.0,>=0.20.0
+Requires-Dist: requests>=2.31.0
+Requires-Dist: beautifulsoup4>=4.12.2
