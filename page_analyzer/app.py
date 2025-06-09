@@ -50,22 +50,15 @@ def show_url(url_id):
                 "SELECT id, name, created_at FROM urls WHERE id = %s",
                 (url_id,)
             )
-            url = cur.fetchall()
+            url = cur.fetchone()
 
-            updated_urls = []
-            for urls_row in urls:
-                cur.execute(
-                    "SELECT created_at, status_code FROM url_checks "
-                    "WHERE url_id = %s ORDER BY created_at DESC LIMIT 1",
-                    (url_row[0],)
-                )
-                last_check = cur.fetchone()
-                if last_check:
-                    last_check_date, status_code = last_check
-                else:
-                    last_check_date, status_code = None, None
-
-                updated_urls.append(url_row + (last_check)date, status_code,))
+            cur.execute(
+                "SELECT id, status_code, h1, title, description, created_at "
+                "FROM url_checks "
+                "WHERE url_id = %s ORDER BY created_at DESC",
+                (url_id,)
+            )
+         #  checks = cur.fetchall()
 
     return render_template('url.html', url=url)
 
@@ -75,12 +68,13 @@ def add_check(url_id):
     with get_connection() as conn:
         with conn.cursor() as cur:
             # Получаем информацию о сайте
-            cur.execute("SELECT name FROM urls WHERE id = %s", (url_id,))
+            cur.execute("SELECT name FROM urls WHERE id = %s", (url_id))
             result = cur.fetchone()
             if not result:
                 flash('Сайт не найден', 'danger')
                 return redirect(url_for('show_urls'))
 
+            site_name = result[0]
             created_at = datetime.now()
 
             try:
@@ -93,27 +87,28 @@ def add_check(url_id):
                 soup = BeautifulSoup(response.text, 'html.parser')
                 h1 = soup.find('h1').get_text(strip=True) if soup.find('h1') else None
                 title = soup.title.string if soup.title else None
-                description_tag = soup.find('meta', atts={'name': 'description'})
+                description_tag = soup.find('meta', attrs={'name': 'description'})
                 description = description_tag['content'] if description_tag else None
 
-            except RequestException as e:
+            except RequestException as _:
                 flash('Произошла ошибка при проверке', 'danger')
                 return redirect(url_for('show_url', url_id=url_id))
-            except Exception as e:
+            except Exception as _:
                 flash('Произошла ошибка при парсинге HTML', 'danger')
                 return redirect(url_for('show_url', url_id=url_id))
 
             # Создаём новую проверку
             cur.execute(
-                "INSERT INTO url_checks (url_id, status_code, h1, title, description, created_at) "
-                "VALUES (%s, %s, %s, %s, %s, %s,) RETURNING id",
-                (url_id, status_code, h1, title, description,  created_at)
+                "INSERT INTO url_checks "
+                "(url_id, status_code, h1, title, description, created_at) "
+                "VALUES (%s, %s, %s, %s, %s, %s) RETURNING id",
+                (url_id, status_code, h1, title, description, created_at)
             )
-            cur.fetchone()[0]
+            cur.fetchone()
             conn.commit()
 
-            flash('Проверка успешно запущена', 'success')
-            return redirect(url_for('show_url', url_id=url_id))
+    flash('Проверка успешно запущена', 'success')
+    return redirect(url_for('show_url', url_id=url_id))
 
 
 @app.route('/urls')
