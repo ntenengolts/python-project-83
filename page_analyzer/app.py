@@ -58,9 +58,9 @@ def show_url(url_id):
                 "WHERE url_id = %s ORDER BY created_at DESC",
                 (url_id,)
             )
-         #  checks = cur.fetchall()
+            checks = cur.fetchall()
 
-    return render_template('url.html', url=url)
+    return render_template('url.html', url=url, checks=checks)
 
 
 @app.route('/urls/<int:url_id>/checks', methods=['POST'])
