@@ -10,6 +10,7 @@
             <th>Имя</th>
             <th>Дата создания</th>
             <th>Последняя проверка</th>
+            <th>Код ответа</th>
         </tr>
     </thead>
     <tbody>
@@ -19,6 +20,7 @@
             <td><a href="{{ url_for('show_url', url_id=url[0]) }}">{{ url[1] }}</a></td>
             <td>{{ url[2] }}</td>
             <td>{{ url[3] if url[3] else '-' }}</td>
+            <td>{{ url[4] if url[4] else '-' }}</td>
         </tr>
         {% endfor %}
     </tbody>
