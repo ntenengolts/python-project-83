@@ -68,7 +68,7 @@ def add_check(url_id):
     with get_connection() as conn:
         with conn.cursor() as cur:
             # Получаем информацию о сайте
-            cur.execute("SELECT name FROM urls WHERE id = %s", (url_id))
+            cur.execute("SELECT name FROM urls WHERE id = %s", (url_id,))
             result = cur.fetchone()
             if not result:
                 flash('Сайт не найден', 'danger')
