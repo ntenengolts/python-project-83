@@ -37,7 +37,8 @@ def add_url():
                 flash('Страница уже существует', 'info')
                 return redirect(url_for('show_url', url_id=result[0]))
             cur.execute(
-                "INSERT INTO urls (name, created_at) VALUES (%s, %s) RETURNING id",
+                "INSERT INTO urls (name, created_at) "
+                "VALUES (%s, %s) RETURNING id",
                 (normalized, created_at)
             )
             new_id = cur.fetchone()[0]
@@ -84,16 +85,20 @@ def add_check(url_id):
 
             try:
                 # Выполняем запрос к сайту
-                response = requests.get(site_name, timeout=10)
+                response = requests.get(f"https://{site_name}", timeout=10)
                 response.raise_for_status()
                 status_code = response.status_code
 
                 # Парсим HTML
                 soup = BeautifulSoup(response.text, 'html.parser')
-                h1 = soup.find('h1').get_text(strip=True) if soup.find('h1') else None
+                h1_tag = soup.find('h1')
+                h1 = h1_tag.get_text(strip=True) if soup.find('h1') else None
                 title = soup.title.string if soup.title else None
                 description_tag = soup.find('meta', attrs={'name': 'description'})
-                description = description_tag['content'] if description_tag else None
+                description = (
+                    description_tag['content']
+                    if description_tag else None
+                )
 
             except RequestException as _:
                 flash('Произошла ошибка при проверке', 'danger')
