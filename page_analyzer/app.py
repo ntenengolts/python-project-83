@@ -9,6 +9,11 @@ from db import get_connection
 from . import app  # импорт Flask-приложения
 
 
+def normalize_url(url):
+    parsed = urlparse(url)
+    return f"{parsed.scheme}://{parsed.netloc}"
+
+
 @app.route('/', methods=['GET'])
 def index():
     return render_template('index.html')
@@ -16,12 +21,12 @@ def index():
 
 @app.route('/urls', methods=['POST'])
 def add_url():
-    raw_url = request.form.get('url', '').strip()
+    raw_url = request.form.get('url')
     if not is_valid_url(raw_url) or len(raw_url) > 255:
         flash('Некорректный URL', 'danger')
         return render_template('index.html'), 422
 
-    normalized = raw_url
+    normalized = normalize_url(raw_url)
     created_at = datetime.now()
 
     with get_connection() as conn:

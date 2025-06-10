@@ -8,7 +8,6 @@
         <tr>
             <th>ID</th>
             <th>Имя</th>
-            <th>Дата создания</th>
             <th>Последняя проверка</th>
             <th>Код ответа</th>
         </tr>
@@ -18,7 +17,6 @@
         <tr>
             <td>{{ url[0] }}</td>
             <td><a href="{{ url_for('show_url', url_id=url[0]) }}">{{ url[1] }}</a></td>
-            <td>{{ url[2].strftime('%Y-%m-%d') if url[3] is not none else ' ' }}</td>
             <td>{{ url[3].strftime('%Y-%m-%d') if url[3] is not none else ' ' }}</td>
             <td>{{ url[4] if url[4] is not none else ' ' }}</td>
         </tr>
