@@ -2,7 +2,7 @@
 
 {% block content %}
 <h1>Сайт: {{ url[1] }}</h1>
-<p>Дата создания: {{ url[2] }}</p>
+<p>Дата создания: {{ url[2].strftime('%Y-%m-%d') }}</p>
 
 <h2>Проверки</h2>
 <form method="post" action="{{ url_for('add_check', url_id=url[0]) }}">
@@ -28,7 +28,7 @@
             <td>{{ check[2] }}</td>
             <td>{{ check[3] }}</td>
             <td>{{ check[4] }}</td>
-            <td>{{ check[5] }}</td>
+            <td>{{ check[5].strftime('%Y-%m-%d') }}</td>
         </tr>
         {% endfor %}
     </tbody>

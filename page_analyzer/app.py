@@ -107,7 +107,7 @@ def add_check(url_id):
             cur.fetchone()
             conn.commit()
 
-    flash('Проверка успешно запущена', 'success')
+    flash('Страница успешно проверена', 'success')
     return redirect(url_for('show_url', url_id=url_id))
 
 

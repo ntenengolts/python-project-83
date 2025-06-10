@@ -3,7 +3,7 @@
 {% block content %}
 <h1>Список сайтов</h1>
 
-<table data-test="table">
+<table data-test="urls">
     <thead>
         <tr>
             <th>ID</th>
@@ -19,8 +19,8 @@
             <td>{{ url[0] }}</td>
             <td><a href="{{ url_for('show_url', url_id=url[0]) }}">{{ url[1] }}</a></td>
             <td>{{ url[2] }}</td>
-            <td>{{ url[3] if url[3] is not none else '-' }}</td>
-            <td>{{ url[4] if url[4] is not none else '-' }}</td>
+            <td>{{ url[3].strftime('%Y-%m-%d') if url[3] is not none else '-' }}</td>
+            <td>{{ url[4].strftime('%Y-%m-%d') if url[4] is not none else '-' }}</td>
         </tr>
         {% endfor %}
     </tbody>
