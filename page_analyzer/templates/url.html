@@ -24,10 +24,10 @@
         {% for check in checks %}
         <tr>
             <td>{{ check[0] }}</td>
-            <td>{{ check[1] }}</td>
-            <td>{{ check[2] }}</td>
-            <td>{{ check[3] }}</td>
-            <td>{{ check[4] }}</td>
+            <td>{{ check[1] if url[1] is not none else ' ' }}</td>
+            <td>{{ check[2] if url[2] is not none else ' ' }}</td>
+            <td>{{ check[3] if url[3] is not none else ' ' }}</td>
+            <td>{{ check[4] if url[4] is not none else ' ' }}</td>
             <td>{{ check[5].strftime('%Y-%m-%d') }}</td>
         </tr>
         {% endfor %}

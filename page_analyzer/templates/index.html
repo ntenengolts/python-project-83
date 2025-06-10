@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1 class="text-center">Page Analyzer</h1>
-<p class="text-center">Введите адрес сайта и мы его проанализируем</p>
+<h1 class="text-center">Анализатор страниц</h1>
+<p class="text-center">Бесплатно проверяйте сайты на SEO-пригодность</p>
 
 <form method="post" action="{{ url_for('add_url') }}">
   <div class="input-group mb-3">
     <input type="text" name="url" class="form-control" placeholder="https://example.com">
-    <button class="btn btn-primary" type="submit">Проверить</button>
+    <input class="btn btn-primary" type="submit" value="Проверить">
   </div>
 </form>
 {% endblock %}
