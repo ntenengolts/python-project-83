@@ -16,12 +16,12 @@ def index():
 
 @app.route('/urls', methods=['POST'])
 def add_url():
-    raw_url = request.form.get('url')
+    raw_url = request.form.get('url', '').strip()
     if not is_valid_url(raw_url) or len(raw_url) > 255:
         flash('Некорректный URL', 'danger')
         return render_template('index.html'), 422
 
-    normalized = urlparse(raw_url).netloc
+    normalized = raw_url
     created_at = datetime.now()
 
     with get_connection() as conn:
@@ -79,7 +79,7 @@ def add_check(url_id):
 
             try:
                 # Выполняем запрос к сайту
-                response = requests.get(f"https://{site_name}", timeout=10)
+                response = requests.get(site_name, timeout=10)
                 response.raise_for_status()
                 status_code = response.status_code
 
