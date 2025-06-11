@@ -1,12 +1,20 @@
+import os
+from dotenv import load_dotenv
 import requests
 from requests.exceptions import RequestException
 from bs4 import BeautifulSoup
-from flask import request, redirect, flash, render_template, url_for
+from flask import Flask, request, redirect, flash, render_template, url_for
 from urllib.parse import urlparse
 from validators import url as is_valid_url
 from datetime import datetime
 from db import get_connection
-from . import app  # импорт Flask-приложения
+
+
+load_dotenv()
+
+app = Flask(__name__)
+app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'secret')
+DATABASE_URL = os.getenv('DATABASE_URL')
 
 
 def normalize_url(url):
@@ -94,7 +102,9 @@ def add_check(url_id):
                 h1_tag = soup.find('h1')
                 h1 = h1_tag.get_text(strip=True) if soup.find('h1') else None
                 title = soup.title.string if soup.title else None
-                description_tag = soup.find('meta', attrs={'name': 'description'})
+                description_tag = soup.find(
+                    'meta', attrs={'name': 'description'}
+                )
                 description = (
                     description_tag['content']
                     if description_tag else None
@@ -125,7 +135,9 @@ def add_check(url_id):
 def show_urls():
     with get_connection() as conn:
         with conn.cursor() as cur:
-            cur.execute("SELECT id, name, created_at FROM urls ORDER BY id DESC")
+            cur.execute(
+                "SELECT id, name, created_at FROM urls ORDER BY id DESC"
+            )
             urls = cur.fetchall()
 
             updated_urls = []
