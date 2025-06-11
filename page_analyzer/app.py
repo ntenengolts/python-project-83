@@ -85,7 +85,7 @@ def add_check(url_id):
 
             try:
                 # Выполняем запрос к сайту
-                response = requests.get(f"https://{site_name}", timeout=10)
+                response = requests.get(site_name, timeout=10)
                 response.raise_for_status()
                 status_code = response.status_code
 

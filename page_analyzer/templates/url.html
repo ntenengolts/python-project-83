@@ -28,7 +28,7 @@
             <td>{{ check[2] if check[2] is not none else ' ' }}</td>
             <td>{{ check[3] if check[3] is not none else ' ' }}</td>
             <td>{{ check[4] if check[4] is not none else ' ' }}</td>
-            <td>{{ check[5].strftime('%Y-%m-%d') }}</td>
+            <td>{{ check[5].strftime('%Y-%m-%d') if check[5] is not none else ' ' }}</td>
         </tr>
         {% endfor %}
     </tbody>
