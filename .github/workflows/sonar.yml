@@ -32,7 +32,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.projectKey=YOUR_ntenengolts_python-project-83
+            -Dsonar.projectKey=ntenengolts_python-project-83
             -Dsonar.organization=ntenengolts
             -Dsonar.python.version=3.11
             -Dsonar.sources=page_analyzer
