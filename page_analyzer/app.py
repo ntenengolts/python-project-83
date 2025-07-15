@@ -106,7 +106,7 @@ def add_check(url_id):
                 "(url_id, status_code, h1, title, description, created_at) "
                 "VALUES (%s, %s, %s, %s, %s, %s) RETURNING id", (
                 url_id, status_code,
-                parsed_date['h1'], parsed_date['title'], parsed_date['description'],
+                parsed_data['h1'], parsed_data['title'], parsed_data['description'],
                 created_at
             ))
             conn.commit()
