@@ -2,24 +2,19 @@ import os
 from dotenv import load_dotenv
 import requests
 from requests.exceptions import RequestException
-from bs4 import BeautifulSoup
 from flask import Flask, request, redirect, flash, render_template, url_for
-from urllib.parse import urlparse
 from validators import url as is_valid_url
 from datetime import datetime
-from db import get_connection
+
+from page_analyzer.db import get_connection
+from page_analyzer.parser import parse_html
+from page_analyzer.url_normalizer import normalize_url
 
 
 load_dotenv()
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'secret')
-DATABASE_URL = os.getenv('DATABASE_URL')
-
-
-def normalize_url(url):
-    parsed = urlparse(url)
-    return f"{parsed.scheme}://{parsed.netloc}"
 
 
 @app.route('/', methods=['GET'])
@@ -96,19 +91,7 @@ def add_check(url_id):
                 response = requests.get(site_name, timeout=10)
                 response.raise_for_status()
                 status_code = response.status_code
-
-                # Парсим HTML
-                soup = BeautifulSoup(response.text, 'html.parser')
-                h1_tag = soup.find('h1')
-                h1 = h1_tag.get_text(strip=True) if soup.find('h1') else None
-                title = soup.title.string if soup.title else None
-                description_tag = soup.find(
-                    'meta', attrs={'name': 'description'}
-                )
-                description = (
-                    description_tag['content']
-                    if description_tag else None
-                )
+                parsed_data = parse_html(response.text)
 
             except RequestException as _:
                 flash('Произошла ошибка при проверке', 'danger')
@@ -121,10 +104,11 @@ def add_check(url_id):
             cur.execute(
                 "INSERT INTO url_checks "
                 "(url_id, status_code, h1, title, description, created_at) "
-                "VALUES (%s, %s, %s, %s, %s, %s) RETURNING id",
-                (url_id, status_code, h1, title, description, created_at)
-            )
-            cur.fetchone()
+                "VALUES (%s, %s, %s, %s, %s, %s) RETURNING id", (
+                url_id, status_code,
+                parsed_date['h1'], parsed_date['title'], parsed_date['description'],
+                created_at
+            ))
             conn.commit()
 
     flash('Страница успешно проверена', 'success')
@@ -159,9 +143,3 @@ def show_urls():
                 updated_urls.append(updated_url)
 
     return render_template('urls.html', urls=updated_urls)
-
-
-@app.route('/test')
-def test():
-    return "Hello from Flask!", 200
-
